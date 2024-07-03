@@ -6,9 +6,9 @@ DEFAULT_LOCATION = "Osun"
 @app.route('/api/hello', methods=['GET'])
 def hello():
     visitor_name = request.args.get('visitor_name', 'Guest')
+    ip_address = request.remote_addr
     
-    # Use a weather API to get the temperature for the specified location
-    weather_api_key = '2d698e63c1207b0f5754b01bbd8c31ca'  # Replace this with your actual API key
+    weather_api_key = '2d698e63c1207b0f5754b01bbd8c31ca' 
     weather_response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?q={DEFAULT_LOCATION}&appid={weather_api_key}&units=metric')
     weather_data = weather_response.json()
 
@@ -18,6 +18,7 @@ def hello():
         temperature = 'N/A'
 
     response = {
+        "client_ip": ip_address,
         "location": DEFAULT_LOCATION,
         "greeting": f"Hello, {visitor_name}!, the temperature is {temperature} degrees Celsius in {DEFAULT_LOCATION}"
     }
